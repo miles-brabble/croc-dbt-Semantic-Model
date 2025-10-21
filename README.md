@@ -4,7 +4,7 @@ This project is a working example of a **dbt + MetricFlow + Streamlit** semantic
 
 ---
 
-## 🧠 Overview
+## Overview
 
 The `croc-dbt-Semantic-Model` project represents a simple analytics workflow that:
 - Loads and transforms structured data (in this case, crocodile observation data) via **dbt**.
@@ -15,7 +15,7 @@ This setup is ideal for experimenting with **headless BI**, **AI-ready data mode
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 | Layer | Tool | Purpose |
 |-------|------|----------|
@@ -23,3 +23,7 @@ This setup is ideal for experimenting with **headless BI**, **AI-ready data mode
 | Semantic Layer | **MetricFlow** | Defines metrics, entities, and relationships in YAML |
 | Visualization / Interface | **Streamlit** | Simple app interface for querying and testing semantic metrics |
 | Storage (example) | **Postgres / Neon / Snowflake** | Data warehouse for model outputs |
+
+---
+
+execute the streamlit app.py via bash: python -m streamlit run app.py
