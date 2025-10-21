@@ -1,0 +1,16 @@
+version: 2
+
+semantic_models:
+  - name: metricflow_time_spine
+    model: ref('metricflow_time_spine')
+
+    # choose ONE way to declare the primary entity.
+    # We'll keep ONLY primary_entity and remove the entities list.
+    primary_entity: date
+
+    dimensions:
+      - name: date_day
+        type: time
+        expr: date
+        type_params:
+          time_granularity: day

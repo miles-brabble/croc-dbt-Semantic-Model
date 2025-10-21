@@ -1,0 +1,169 @@
+version: 2
+
+semantic_models:
+
+  # =========================
+  # FACT: crocodile_observations
+  # =========================
+  - name: crocodile_observations
+    model: ref('fact_croc_observation')
+
+    defaults:
+      agg_time_dimension: load_ts
+
+    entities:
+      - name: observation
+        type: primary
+        expr: observation_id
+      - name: species
+        type: foreign
+        expr: species_id
+      - name: location
+        type: foreign
+        expr: location_id
+      - name: conservation_status
+        type: foreign
+        expr: status_id
+      - name: observer
+        type: foreign
+        expr: observer_id
+      - name: date
+        type: foreign
+        expr: date_id
+
+    dimensions:
+      - name: load_ts
+        type: time
+        expr: load_ts
+        type_params:
+          time_granularity: day
+
+      - name: sex
+        type: categorical
+        expr: sex
+
+      - name: habitat_type
+        type: categorical
+        expr: habitat_type
+
+    measures:
+      - name: total_observations
+        agg: count
+        expr: 1
+
+      - name: avg_length_m
+        agg: average
+        expr: observed_length_m
+
+      - name: avg_weight_kg
+        agg: average
+        expr: observed_weight_kg
+
+
+  # =========================
+  # DIM: species
+  # =========================
+  - name: species_attributes
+    model: ref('dim_species')
+
+    entities:
+      - name: species
+        type: primary
+        expr: species_id
+
+    dimensions:
+      - name: scientific_name
+        type: categorical
+        expr: scientific_name
+      - name: common_name
+        type: categorical
+        expr: common_name
+      - name: family
+        type: categorical
+        expr: family
+      - name: genus
+        type: categorical
+        expr: genus
+
+
+  # =========================
+  # DIM: observer
+  # =========================
+  - name: observer_attributes
+    model: ref('dim_observer')
+
+    entities:
+      - name: observer
+        type: primary
+        expr: observer_id
+
+    dimensions:
+      - name: observer_name
+        type: categorical
+        expr: observer_name
+
+
+  # =========================
+  # DIM: location
+  # =========================
+  - name: location_attributes
+    model: ref('dim_location')
+
+    entities:
+      - name: location
+        type: primary
+        expr: location_id
+
+    dimensions:
+      - name: country_region
+        type: categorical
+        expr: country_region
+
+
+  # =========================
+  # DIM: conservation status
+  # =========================
+  - name: conservation_status_attributes
+    model: ref('dim_conservation_status')
+
+    entities:
+      - name: conservation_status
+        type: primary
+        expr: status_id
+
+    # rename the dimension so it doesn't collide with the entity name
+    dimensions:
+      - name: conservation_status_name
+        type: categorical
+        expr: conservation_status
+
+
+  # =========================
+  # DIM: date (entity only; no "date" dimension)
+  # =========================
+  - name: date_attributes
+    model: ref('dim_date')
+
+    entities:
+      - name: date
+        type: primary
+        expr: date_id
+
+metrics:
+  - name: total_observations
+    label: Total observations
+    type: simple
+    type_params:
+      measure: total_observations
+
+  - name: average_length_m
+    label: Average length (m)
+    type: simple
+    type_params:
+      measure: avg_length_m
+
+  - name: average_weight_kg
+    label: Average weight (kg)
+    type: simple
+    type_params:
+      measure: avg_weight_kg

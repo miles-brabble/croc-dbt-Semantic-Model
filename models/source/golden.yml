@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: GOLDEN           # <- rename the source to avoid confusion
+    database: neondb 
+    schema: GOLDEN             # optional; use if you want to pin DB                # <<< set to the schema that actually has the tables
+    quoting:                      # make casing safe
+      database: false
+      schema: true
+      identifier: false
+    tables:
+      - name: fact_croc_observation
+      - name: dim_species
+      - name: dim_observer
+      - name: dim_location
+      - name: dim_conservation_status
+      - name: dim_date
